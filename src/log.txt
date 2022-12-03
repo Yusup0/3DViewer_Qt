@@ -1,0 +1,15 @@
+
+
+<--- MAIN --->  ___  Sat Dec  3 16:53:39 2022
+[BEGIN] mywidgetopengl  ___  Sat Dec  3 16:53:39 2022
+[OK] mywidgetopengl  ___  Sat Dec  3 16:53:39 2022
+[BEGIN] mainWindow  ___  Sat Dec  3 16:53:39 2022
+[OK] mainWindow  ___  Sat Dec  3 16:53:39 2022
+[BEGIN] initializeGL  ___  Sat Dec  3 16:53:39 2022
+[OK] initializeGL  ___  Sat Dec  3 16:53:39 2022
+[BEGIN] resizeGL  ___  Sat Dec  3 16:53:39 2022
+[OK] resizeGL  ___  Sat Dec  3 16:53:39 2022
+[BEGIN] resizeGL  ___  Sat Dec  3 16:53:39 2022
+[OK] resizeGL  ___  Sat Dec  3 16:53:39 2022
+[BEGIN] loadObject  ___  Sat Dec  3 16:53:44 2022
+[OK] loadObject  ___  Sat Dec  3 16:53:44 2022
