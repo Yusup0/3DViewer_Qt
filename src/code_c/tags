@@ -1,0 +1,184 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/_who/WORK/main_account/3DViewer/code_c/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20220828.0/
+$schema	.vimspector.json	/^  "$schema": "https:\/\/puremourning.github.io\/vimspector\/schema\/vimspector.schema.json",$/;"	s
+0	.vimspector.json	/^        "args": [ "*${args:--update-gadget-config}" ],$/;"	s	array:configurations.CPP: Run current script.configuration.args
+CC	Makefile	/^CC=gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS=-g -Wall -Wextra -Werror  # -std=c11  # -pedantic $/;"	m
+CPP: Run current script	.vimspector.json	/^    "CPP: Run current script": {$/;"	o	object:configurations
+ERROR_ANOTHER	logging_manager.h	/^    ERROR_ANOTHER,$/;"	e	enum:s_error_state
+ERROR_DYNAMIC_MEMORY	logging_manager.h	/^    ERROR_DYNAMIC_MEMORY,$/;"	e	enum:s_error_state
+ERROR_END	logging_manager.h	/^    ERROR_END,$/;"	e	enum:s_error_state
+ERROR_FILE_NOT_EXISTS	logging_manager.h	/^    ERROR_FILE_NOT_EXISTS,$/;"	e	enum:s_error_state
+ERROR_OK	logging_manager.h	/^    ERROR_OK = 0,$/;"	e	enum:s_error_state
+ERROR_SEGMENTATION	logging_manager.h	/^    ERROR_SEGMENTATION,$/;"	e	enum:s_error_state
+FUNCTIONAL_H	functional.h	/^#define FUNCTIONAL_H$/;"	d
+FUNCTIONAL_VIEWER_H	functional_viewer.h	/^#define FUNCTIONAL_VIEWER_H$/;"	d
+GCOVFLAGS	Makefile	/^GCOVFLAGS:=-fprofile-arcs -ftest-coverage   -fsanitize=address$/;"	m
+IS_TEST_TURN_ON	gcov_obj/s21_functional_test.c	/^#define IS_TEST_TURN_ON /;"	d	file:
+LDFLAGS	Makefile	/^LDFLAGS:=-lcheck --coverage -fsanitize=address$/;"	m
+LOGGING_MANAGER_H	logging_manager.h	/^#define LOGGING_MANAGER_H$/;"	d
+OBJECTS	Makefile	/^OBJECTS = $(addprefix objects\/,$(SOURCES:.c=.o))$/;"	m
+OBJECTS_GCOV	Makefile	/^OBJECTS_GCOV = $(addprefix gcov_obj\/,$(SOURCES:.c=.o))$/;"	m
+Python: Attach To Vim	.vimspector.json	/^    "Python: Attach To Vim": {$/;"	o	object:configurations
+S21_READ_OBJECT	s21_read_object.h	/^#define S21_READ_OBJECT$/;"	d
+SIZE_DEFAULT	s21_read_object.c	/^#define SIZE_DEFAULT /;"	d	file:
+SIZE_VERTEX	s21_read_object.h	/^#define SIZE_VERTEX /;"	d
+SOURCES	Makefile	/^SOURCES:= s21_read_object.c logging_manager.c functional_viewer.c$/;"	m
+START_TEST	gcov_obj/s21_functional_test.c	/^START_TEST(s21_create_matrix) {$/;"	f
+START_TEST	gcov_obj/s21_functional_test.c	/^START_TEST(s21_for_single_test) {}$/;"	f	typeref:typename:END_TEST
+START_TEST	gcov_obj/s21_read_object_test.c	/^START_TEST(s21_add_num) {$/;"	f	typeref:typename:END_TEST
+START_TEST	gcov_obj/s21_read_object_test.c	/^START_TEST(s21_add_polygon_test) {$/;"	f	typeref:typename:END_TEST
+START_TEST	gcov_obj/s21_read_object_test.c	/^START_TEST(s21_error_test) {$/;"	f	typeref:typename:END_TEST
+START_TEST	gcov_obj/s21_read_object_test.c	/^START_TEST(s21_for_single_test) {$/;"	f
+START_TEST	gcov_obj/s21_read_object_test.c	/^START_TEST(s21_len_num) {$/;"	f	typeref:typename:END_TEST
+START_TEST	gcov_obj/s21_read_object_test.c	/^START_TEST(s21_read_file2_test) {$/;"	f
+START_TEST	gcov_obj/s21_read_object_test.c	/^START_TEST(s21_read_file_test) {$/;"	f	typeref:typename:END_TEST
+START_TEST	gcov_obj/s21_read_object_test.c	/^START_TEST(s21_string_test) {$/;"	f	typeref:typename:END_TEST
+START_TEST	gcov_obj/s21_read_object_test.c	/^START_TEST(s21_string_to_polygon_test) {$/;"	f
+START_TEST	gcov_obj/s21_read_object_test.c	/^START_TEST(s21_vertex2_test) {$/;"	f
+START_TEST	gcov_obj/s21_read_object_test.c	/^START_TEST(s21_vertex_test) {$/;"	f
+VIEWER_INFO_H	viewer_info.h	/^#define VIEWER_INFO_H$/;"	d
+adapter	.vimspector.json	/^      "adapter": "vscode-cpptools",$/;"	s	object:configurations.CPP: Run current script
+adapter	.vimspector.json	/^      "adapter": "vscode-cpptools",$/;"	s	object:configurations.Python: Attach To Vim
+add_char_to_str	s21_read_object.c	/^void add_char_to_str(char **p_tmp_, char ch_, unsigned *pi_str_,$/;"	f	typeref:typename:void
+add_polygon	s21_read_object.c	/^int add_polygon(s_data **data_, s_pointers coordinates_) {$/;"	f	typeref:typename:int
+add_str_to_str	s21_read_object.c	/^void add_str_to_str(char **p_dest_, char const *p_src_, unsigned *pi_dest_,$/;"	f	typeref:typename:void
+add_vertex	s21_read_object.c	/^int add_vertex(s_data **data_, float num_) {$/;"	f	typeref:typename:int
+affine_transformation	functional.c	/^void affine_transformation(points_a *points_str, matrix_t matrix_affin) {$/;"	f	typeref:typename:void
+all	Makefile	/^all: s21_read_object.a $/;"	t
+args	.vimspector.json	/^        "args": [ "*${args:--update-gadget-config}" ],$/;"	a	object:configurations.CPP: Run current script.configuration
+arr	viewer_info.h	/^    float *arr;$/;"	m	struct:s_info	typeref:typename:float *
+array	s21_read_object.h	/^  float *array;$/;"	m	struct:s_vertex	typeref:typename:float *
+build	Makefile	/^build: test gcov_report s21_read_object_gcov.a $/;"	t
+chapter_polygon	s21_read_object.c	/^void chapter_polygon(s_pointers *pointer, char const *tmp_, int num_) {$/;"	f	typeref:typename:void
+check	Makefile	/^check:$/;"	t
+check_end_resisze_str	s21_read_object.c	/^void check_end_resisze_str(char **p_str_, unsigned pi_str_, unsigned *pn_str_) {$/;"	f	typeref:typename:void
+clean	Makefile	/^clean:$/;"	t
+clear_pointers	s21_read_object.c	/^void clear_pointers(s_pointers *pointers_) {$/;"	f	typeref:typename:void
+clear_str	s21_read_object.c	/^void clear_str(char *str_, unsigned *i_, unsigned const size) {$/;"	f	typeref:typename:void
+columns	functional.h	/^  int columns;$/;"	m	struct:matrix_int	typeref:typename:int
+columns	functional.h	/^  int columns;$/;"	m	struct:matrix_struct	typeref:typename:int
+configuration	.vimspector.json	/^      "configuration": {$/;"	o	object:configurations.CPP: Run current script
+configuration	.vimspector.json	/^      "configuration": {$/;"	o	object:configurations.Python: Attach To Vim
+configurations	.vimspector.json	/^  "configurations": {$/;"	o
+count_points	functional.h	/^  int count_points;$/;"	m	struct:points_array	typeref:typename:int
+count_poligon	functional.c	/^int count_poligon(char *string) {$/;"	f	typeref:typename:int
+create_matrix	functional.c	/^int create_matrix(int rows, int columns, matrix_t *result) {$/;"	f	typeref:typename:int
+create_str	logging_manager.c	/^char *create_str(unsigned n_str) {$/;"	f	typeref:typename:char *
+cwd	.vimspector.json	/^        "cwd": "${workspaceRoot}",$/;"	s	object:configurations.CPP: Run current script.configuration
+eq_double	gcov_obj/s21_read_object_test.c	/^int eq_double(double a_, double b_) { return (fabs(a_ - b_) < 1e-5); };$/;"	f	typeref:typename:int
+for_single_test	gcov_obj/s21_functional_test.c	/^void for_single_test(TCase *tc1_1) {$/;"	f	typeref:typename:void
+free_data	s21_read_object.c	/^int free_data(s_data **data_) {$/;"	f	typeref:typename:int
+free_matrix_int	functional.c	/^void free_matrix_int(matrix_poligon *polygons) {$/;"	f	typeref:typename:void
+free_polygons	s21_read_object.c	/^int free_polygons(s_polygon **polygons_) {$/;"	f	typeref:typename:int
+free_str	logging_manager.c	/^int free_str(char **str_) {$/;"	f	typeref:typename:int
+free_vertex	s21_read_object.c	/^int free_vertex(s_vertex **vertex_) {$/;"	f	typeref:typename:int
+ft_unuased	logging_manager.h	/^#define ft_unuased(/;"	d
+ft_unuased	viewer_info.h	/^#define ft_unuased(/;"	d
+gcov_obj/%.o	Makefile	/^gcov_obj\/%.o: %.c$/;"	t
+gcov_report	Makefile	/^gcov_report: rebuild test$/;"	t
+help_functions_test	gcov_obj/s21_functional_test.c	/^void help_functions_test(TCase *tc1_1) {$/;"	f	typeref:typename:END_TEST void
+hoare_sort	functional.c	/^void hoare_sort(matrix_poligon *polygons, int start, int end) {$/;"	f	typeref:typename:void
+host	.vimspector.json	/^        "host": "localhost"$/;"	s	object:configurations.Python: Attach To Vim.variables
+indexF	viewer_info.h	/^    unsigned indexF;$/;"	m	struct:s_info	typeref:typename:unsigned
+indexV	viewer_info.h	/^    unsigned indexV;$/;"	m	struct:s_info	typeref:typename:unsigned
+is_digit	s21_read_object.c	/^int is_digit(char ch_) {$/;"	f	typeref:typename:int
+justMyCode#json	.vimspector.json	/^        "justMyCode#json": "${justMyCode:true}"$/;"	s	object:configurations.CPP: Run current script.configuration
+len_num	logging_manager.c	/^unsigned len_num(unsigned num_) {$/;"	f	typeref:typename:unsigned
+limit	s21_read_object.h	/^  unsigned limit;$/;"	m	struct:s_polygon	typeref:typename:unsigned
+limit	s21_read_object.h	/^  unsigned limit;$/;"	m	struct:s_vertex	typeref:typename:unsigned
+logging	logging_manager.c	/^int logging(s_error_state state_, char const *message_, int is_on_) {$/;"	f	typeref:typename:int
+logging_line	logging_manager.c	/^int logging_line(s_error_state state_, char const *filename_, unsigned line_,$/;"	f	typeref:typename:int
+logging_test	gcov_obj/s21_read_object_test.c	/^void logging_test(TCase *tc1_1) {$/;"	f	typeref:typename:END_TEST void
+main	gcov_obj/s21_functional_test.c	/^int main(void) {$/;"	f	typeref:typename:int
+main	gcov_obj/s21_read_object_test.c	/^int main(void) {$/;"	f	typeref:typename:int
+matrix	functional.h	/^  double **matrix;$/;"	m	struct:matrix_struct	typeref:typename:double **
+matrix_int	functional.h	/^typedef struct matrix_int {$/;"	s
+matrix_int	functional.h	/^} matrix_int;$/;"	t	typeref:struct:matrix_int
+matrix_poligon	functional.h	/^typedef struct matrix_poligon {$/;"	s
+matrix_poligon	functional.h	/^} matrix_poligon;$/;"	t	typeref:struct:matrix_poligon
+matrix_rotation	functional.c	/^void matrix_rotation(matrix_t *matrix_turn, double rotation, int axis) {$/;"	f	typeref:typename:void
+matrix_struct	functional.h	/^typedef struct matrix_struct {$/;"	s
+matrix_t	functional.h	/^} matrix_t;$/;"	t	typeref:struct:matrix_struct
+max	s21_read_object.h	/^  float max;$/;"	m	struct:s_vertex	typeref:typename:float
+maxV	viewer_info.h	/^    float maxV;$/;"	m	struct:s_info	typeref:typename:float
+max_z	functional.h	/^  double max_z;$/;"	m	struct:matrix_int	typeref:typename:double
+max_z_pol	functional.c	/^void max_z_pol(points_a *points_array, matrix_poligon *polygons) {$/;"	f	typeref:typename:void
+move_obj	functional.c	/^void move_obj(point_t *move_point, points_a *points_str) {$/;"	f	typeref:typename:void
+move_x	functional_viewer.c	/^void move_x(s_info *data_, int shift_) {$/;"	f	typeref:typename:void
+move_y	functional_viewer.c	/^void move_y(s_info *data_, int shift_) {$/;"	f	typeref:typename:void
+move_z	functional_viewer.c	/^void move_z(s_info *data_, int shift_) {$/;"	f	typeref:typename:void
+mult_matrix	functional.c	/^int mult_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {$/;"	f	typeref:typename:int
+objects/%.o	Makefile	/^objects\/%.o: %.c$/;"	t
+p_polygon	s21_read_object.h	/^  s_pointers *p_polygon;$/;"	m	struct:s_polygon	typeref:typename:s_pointers *
+pars_file	functional.c	/^int pars_file(char const *file, points_a *points_array, matrix_poligon *polygons) {$/;"	f	typeref:typename:int
+parse_file_object	s21_read_object.c	/^void parse_file_object(char *filename_, s_info *data_) {$/;"	f	typeref:typename:void
+point_struct	functional.h	/^typedef struct point_struct {$/;"	s
+point_t	functional.h	/^} point_t;$/;"	t	typeref:struct:point_struct
+points	functional.h	/^  int *points;$/;"	m	struct:matrix_int	typeref:typename:int *
+points	functional.h	/^  point_t *points;$/;"	m	struct:points_array	typeref:typename:point_t *
+points_a	functional.h	/^} points_a;$/;"	t	typeref:struct:points_array
+points_array	functional.h	/^typedef struct points_array {$/;"	s
+poligons	functional.h	/^  matrix_int *poligons;$/;"	m	struct:matrix_poligon	typeref:typename:matrix_int *
+polygon	s21_read_object.h	/^  s_polygon *polygon;$/;"	m	struct:s_data	typeref:typename:s_polygon *
+polygon	viewer_info.h	/^    unsigned *polygon;$/;"	m	struct:s_info	typeref:typename:unsigned *
+port	.vimspector.json	/^        "port": "5678",$/;"	s	object:configurations.Python: Attach To Vim.variables
+print_matrix	functional.c	/^void print_matrix(matrix_t *matrix) {$/;"	f	typeref:typename:void
+print_pol	functional.c	/^void print_pol(matrix_poligon *polygons) {$/;"	f	typeref:typename:void
+print_polygons	gcov_obj/s21_read_object_test.c	/^void print_polygons(s_data *data_) {$/;"	f	typeref:typename:void
+print_polygons2	s21_read_object.c	/^void print_polygons2(s_data *data_) {$/;"	f	typeref:typename:void
+program	.vimspector.json	/^        "program": "test",$/;"	s	object:configurations.CPP: Run current script.configuration
+read_file	s21_read_object.c	/^s_data *read_file(char const *filename_) {$/;"	f	typeref:typename:s_data *
+read_object_test	gcov_obj/s21_read_object_test.c	/^void read_object_test(TCase *tc1_1) {$/;"	f	typeref:typename:void
+rebuild	Makefile	/^rebuild: clean all$/;"	t
+remove_matrix	functional.c	/^void remove_matrix(matrix_t *A) {$/;"	f	typeref:typename:void
+request	.vimspector.json	/^        "request": "attach"$/;"	s	object:configurations.Python: Attach To Vim.configuration
+request	.vimspector.json	/^        "request": "launch",$/;"	s	object:configurations.CPP: Run current script.configuration
+rotate_x	functional_viewer.c	/^void rotate_x(s_info *data_, double turn_){$/;"	f	typeref:typename:void
+rotate_y	functional_viewer.c	/^void rotate_y(s_info *data_, double turn_) {$/;"	f	typeref:typename:void
+rotate_z	functional_viewer.c	/^void rotate_z(s_info *data_, double turn_) {$/;"	f	typeref:typename:void
+rows	functional.h	/^  int rows;$/;"	m	struct:matrix_poligon	typeref:typename:int
+rows	functional.h	/^  int rows;$/;"	m	struct:matrix_struct	typeref:typename:int
+s21_read_object.a	Makefile	/^s21_read_object.a: $(OBJECTS)$/;"	t
+s21_read_object_gcov.a	Makefile	/^s21_read_object_gcov.a: $(OBJECTS_GCOV)$/;"	t
+s_data	s21_read_object.h	/^typedef struct s_data {$/;"	s
+s_data	s21_read_object.h	/^} s_data;$/;"	t	typeref:struct:s_data
+s_error_state	logging_manager.h	/^typedef enum s_error_state {$/;"	g
+s_error_state	logging_manager.h	/^} s_error_state;$/;"	t	typeref:enum:s_error_state
+s_info	viewer_info.h	/^typedef struct s_info {$/;"	s
+s_info	viewer_info.h	/^} s_info;$/;"	t	typeref:struct:s_info
+s_pointers	s21_read_object.h	/^typedef struct s_pointers {$/;"	s
+s_pointers	s21_read_object.h	/^} s_pointers;$/;"	t	typeref:struct:s_pointers
+s_polygon	s21_read_object.h	/^typedef struct s_polygon {$/;"	s
+s_polygon	s21_read_object.h	/^} s_polygon;$/;"	t	typeref:struct:s_polygon
+s_vertex	s21_read_object.h	/^typedef struct s_vertex {$/;"	s
+s_vertex	s21_read_object.h	/^} s_vertex;$/;"	t	typeref:struct:s_vertex
+scale	functional_viewer.c	/^void scale(s_info *data_, float scale_) {$/;"	f	typeref:typename:void
+scale_obj	functional.c	/^void scale_obj(double scale, points_a *points_str) {$/;"	f	typeref:typename:void
+single_test	gcov_obj/s21_read_object_test.c	/^void single_test(TCase *tc1_1) { tcase_add_test(tc1_1, s21_for_single_test); }$/;"	f	typeref:typename:void
+size	s21_read_object.h	/^  unsigned size;$/;"	m	struct:s_polygon	typeref:typename:unsigned
+size	s21_read_object.h	/^  unsigned size;$/;"	m	struct:s_vertex	typeref:typename:unsigned
+sort_poligon	functional.c	/^void sort_poligon(matrix_poligon *polygons) {$/;"	f	typeref:typename:void
+str_realloc_add_num	logging_manager.c	/^int str_realloc_add_num(char **str_, unsigned num_, unsigned *limit_str_) {$/;"	f	typeref:typename:int
+str_realloc_cat	logging_manager.c	/^int str_realloc_cat(char **str_, char const *text_, unsigned *limit_str_) {$/;"	f	typeref:typename:int
+str_replace	functional.c	/^char *str_replace(char *str, char symbol) {$/;"	f	typeref:typename:char *
+string_to_polygons	s21_read_object.c	/^s_pointers string_to_polygons(char const *str_, s_data **data_) {$/;"	f	typeref:typename:s_pointers
+test	Makefile	/^test: gcov_obj\/s21_read_object_test.o  s21_read_object_gcov.a$/;"	t
+turn_obj	functional.c	/^void turn_obj(double rotation, points_a *points_str, int axis) {$/;"	f	typeref:typename:void
+v	s21_read_object.h	/^  float v;$/;"	m	struct:s_pointers	typeref:typename:float
+variables	.vimspector.json	/^      "variables": {$/;"	o	object:configurations.Python: Attach To Vim
+vertex	s21_read_object.h	/^  s_vertex *vertex;$/;"	m	struct:s_data	typeref:typename:s_vertex *
+vn	s21_read_object.h	/^  float vn;$/;"	m	struct:s_pointers	typeref:typename:float
+vt	s21_read_object.h	/^  float vt;$/;"	m	struct:s_pointers	typeref:typename:float
+x	functional.h	/^  double x;$/;"	m	struct:point_struct	typeref:typename:double
+y	functional.h	/^  double y;$/;"	m	struct:point_struct	typeref:typename:double
+z	functional.h	/^  double z;$/;"	m	struct:point_struct	typeref:typename:double
