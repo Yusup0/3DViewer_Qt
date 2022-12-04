@@ -1,8 +1,6 @@
-DIR=BUILD
-# .NOPARALLEL : checkdir
-# .PHONY : checkdir
-.ONESHELL:
+current_os := $(shell sh -c 'uname -s 2>/dev/null || echo not')
 
+.PHONY: all clean rebuild
 
 all: checkdir install start
 
@@ -17,20 +15,28 @@ clean:
 install:
 	cd BUILD && cmake .. && make
 
-checkdir :
+uninstall: clean
+	
+
+checkdir:
 	@echo "checkdir"
-	# @if [ ! -d $(DIR) ] ; then
-		mkdir -p BUILD
-	# fi
+	mkdir -p BUILD
 
 start:
 	./BUILD/3DV
 
-tar:
+dist:
 	tar -cf 3d.tar ./*
 
-tests: checkdir install
-	./BUILD/bin/testMyWidgetOpenGL
+dvi:
+ifeq ($(current_os), Linux)
+	vi ./documents/doc.txt
+else
+	open ./documents/doc.txt
+endif
+
+tests:
+	cd ./code_c && make test && ./test
 
 
 re: clean all

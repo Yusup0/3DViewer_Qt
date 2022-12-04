@@ -127,7 +127,7 @@ END_TEST
 START_TEST(s21_pars_file) {
   points_a points_array;
   matrix_poligon polygons;
-  pars_file("./test_obj.obj", &points_array, &polygons);
+  pars_file("./gcov_obj/test_obj.obj", &points_array, &polygons);
   ck_assert_double_eq(0, points_array.points[2].x);
   ck_assert_double_eq(0, points_array.points[2].y);
   ck_assert_double_eq(1, points_array.points[2].z);
@@ -143,7 +143,7 @@ START_TEST(s21_pars_file) {
   free(points_array.points);
   free_matrix_int(&polygons);
 
-  pars_file("./test2_obj.obj", &points_array, &polygons);
+  pars_file("./gcov_obj/test2_obj.obj", &points_array, &polygons);
   ck_assert_double_eq(0, points_array.points[2].x);
   ck_assert_double_eq(0, points_array.points[2].y);
   ck_assert_double_eq(1, points_array.points[2].z);
@@ -166,7 +166,7 @@ END_TEST
 START_TEST(s21_scale_obj) {
   points_a points_array;
   matrix_poligon polygons;
-  pars_file("./cow.obj", &points_array, &polygons);
+  pars_file("./gcov_obj/cow.obj", &points_array, &polygons);
   scale_obj(2, &points_array);
   ck_assert_double_eq(4.13736, points_array.points[2].x);
   ck_assert_double_eq(0.810272, points_array.points[2].y);
@@ -184,7 +184,7 @@ END_TEST
 START_TEST(s21_turn_obj) {
   points_a points_array;
   matrix_poligon polygons;
-  pars_file("./cow.obj", &points_array, &polygons);
+  pars_file("./gcov_obj/cow.obj", &points_array, &polygons);
   turn_obj(50, &points_array, 1);
   ck_assert_double_eq(2.06868, points_array.points[2].x);
   ck_assert_double_eq(1, eq_double(-1.39998, points_array.points[2].y));
@@ -200,10 +200,6 @@ START_TEST(s21_turn_obj) {
   ck_assert_double_eq(1, eq_double(-1.341115, points_array.points[6].y));
   ck_assert_double_eq(1, eq_double(0.597590, points_array.points[6].z));
   turn_obj(50, &points_array, 3);
-  // printf("%lf %lf %lf\n\n", points_array.points[2].x,
-  // points_array.points[2].y, points_array.points[2].z); printf("%lf %lf
-  // %lf\n", points_array.points[6].x, points_array.points[6].y,
-  // points_array.points[6].z);
   ck_assert_double_eq(1, eq_double(0.621135, points_array.points[2].x));
   ck_assert_double_eq(1, eq_double(-2.918229, points_array.points[2].y));
   ck_assert_double_eq(1, eq_double(0.489651, points_array.points[2].z));
@@ -224,7 +220,7 @@ START_TEST(s21_move_obj) {
   point.y = 5;
   point.z = -4;
   matrix_poligon polygons;
-  pars_file("./cow.obj", &points_array, &polygons);
+  pars_file("./gcov_obj/cow.obj", &points_array, &polygons);
   move_obj(&point, &points_array);
   ck_assert_double_eq(1, eq_double(5.068680, points_array.points[2].x));
   ck_assert_double_eq(1, eq_double(5.405136, points_array.points[2].y));
@@ -242,7 +238,7 @@ END_TEST
 START_TEST(s21_affine_transformation) {
   points_a points_array;
   matrix_poligon polygons;
-  pars_file("./cow.obj", &points_array, &polygons);
+  pars_file("./gcov_obj/cow.obj", &points_array, &polygons);
   matrix_t matrix_move;
   create_matrix(4, 4, &matrix_move);
   for (int i = 0; i < 4; i++) {
@@ -316,10 +312,18 @@ int main(void) {
   return nf == 0 ? 0 : 1;
 }
 
+// void print(points_a* points_array) {
+//   for (int i = 0; i < 5; i++) {
+//     printf("%lf ", points_array->points[i].x);
+//     printf("%lf ", points_array->points[i].y);
+//     printf("%lf \n", points_array->points[i].z);
+//   }
+// }
+
 // int main(void) {
 //   points_a points_array;
 //   matrix_poligon polygons;
-//   pars_file("./test_obj.obj", &points_array, &polygons);
-//   print_pol(&polygons);
+//   pars_file("./code_c/gcov_obj/cow.obj", &points_array, &polygons);
+//   print(&points_array);
 //   return 0;
 // }

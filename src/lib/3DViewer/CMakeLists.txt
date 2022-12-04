@@ -24,14 +24,13 @@ cmake_host_system_information(RESULT PRETTY_NAME QUERY OS_NAME)
 message(STATUS "${PRETTY_NAME}")
 
 
-if (${PRETTY_NAME} STREQUAL "Linux") 
+if (${PRETTY_NAME} STREQUAL "Linux")
     add_compile_definitions(__LINUX__)
 else()
     add_compile_definitions(__MACOS__)
 endif()
 
 
-# set(CMAKE_CXX_FLAGS "-g -Wall -Wextra -Werror")
 set(CMAKE_CXX_FLAGS "-g -Wall -Wextra -Werror -ggdb")
 
 set(SOURCES

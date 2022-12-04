@@ -42,18 +42,10 @@ MyWidgetOPenGL::MyWidgetOPenGL(QWidget *parent)
 
   this->installEventFilter(this);
   resize(800, 600);
-  // loadConfig();
+  loadConfig();
 
   m_initialized = false;
-
-  m_labelName->setText("Name: ");
-  m_labelVertes->setText("Vertes: ");
-  m_labelPolygons->setText("Polygons: ");
-  m_layoutH->setAlignment(Qt::AlignTop);
-  m_layoutH->addStretch();
-  m_layoutH->addWidget(m_labelName);
-  m_layoutH->addWidget(m_labelVertes);
-  m_layoutH->addWidget(m_labelPolygons);
+  drawInfo();
 
   logging(ERROR_OK, "[OK] mywidgetopengl", 1);
 }
@@ -61,12 +53,11 @@ MyWidgetOPenGL::MyWidgetOPenGL(QWidget *parent)
 // --------------------------------------------------
 
 MyWidgetOPenGL::~MyWidgetOPenGL() {
-  // writeToFileConfig(QDir::currentPath() + "/config.json");
-  // TODO: fix check remove
   free_matrix_int(&m_polygons);
   if (m_points.points)
     free(m_points.points);
   logging(ERROR_END, "", 1);
+  writeToFileConfig("./config.json");
 }
 
 // --------------------------------------------------
@@ -125,7 +116,7 @@ void MyWidgetOPenGL::paintGL() {
     }
 
     updatePerspective();
-    displayObjects(e_typeDraw::TYPE_LINES);
+    drawObjects(e_typeDraw::TYPE_LINES);
 
     if (m_lineType) {
       glDisable(GL_LINE_STIPPLE);
@@ -136,7 +127,7 @@ void MyWidgetOPenGL::paintGL() {
       glEnable(GL_POINT_SMOOTH);
     }
     if (m_pointType) {
-      displayObjects(e_typeDraw::TYPE_POINTS);
+      drawObjects(e_typeDraw::TYPE_POINTS);
     }
     if (m_pointType == 1) {
       glDisable(GL_POINT_SMOOTH);
@@ -193,7 +184,6 @@ void MyWidgetOPenGL::setPointSize(double newPointSize) {
   if (newPointSize >= m_minPointSize && newPointSize <= m_maxPointSize) {
     m_pointSize = newPointSize;
     update();
-    // TODO: change point size slider
   }
 }
 
@@ -258,10 +248,19 @@ void MyWidgetOPenGL::setPointColor(int value_) {
 // -------------------------------------------------------
 
 void MyWidgetOPenGL::setBackgroundColor(int value_) {
-  if (value_ == 0 || value_ == 255)
+  if (value_ == 0 || value_ == 255) {
     m_backgroundColor.setHsl(0, 0, 0);
-  else
+    m_labelName->setStyleSheet("QLabel { color : white; }");
+    m_labelVertes->setStyleSheet("QLabel { color : white; }");
+    m_labelPolygons->setStyleSheet("QLabel { color : white; }");
+    emit on_changeColorGifTime(0);
+  } else {
     m_backgroundColor.setHsl(value_, 50, 50);
+    m_labelName->setStyleSheet("QLabel { color : black; }");
+    m_labelVertes->setStyleSheet("QLabel { color : black; }");
+    m_labelPolygons->setStyleSheet("QLabel { color : black; }");
+    emit on_changeColorGifTime(1);
+  }
   update();
 }
 
@@ -377,21 +376,21 @@ int MyWidgetOPenGL::updateData() {
   if (checkFile.exists() && checkFile.isFile() && !m_fileNameObject.isEmpty()) {
     is_res = pars_file(m_fileNameObject.toStdString().c_str(), &m_points,
                        &m_polygons);
-    if (is_res) {
+    if (is_res && !m_fileNameObject.isEmpty()) {
       defaultConfigSimple();
-      // scale_obj(0.10, &m_points);
-      // resizeGL(this->width(), this->height());
       m_isValid = is_res;
       m_sizePerspective = pow(10, countNumber(m_points.max_size));
 
       updateInfoObject();
       logging(ERROR_OK, "[OK] loadObject", 1);
     } else {
+      clearInfo();
       logging_line(
           ERROR_ANOTHER, "", __LINE__,
           "[ERROR] loadObject (functions) data (coordinates) return NULL ", 1);
     }
   } else {
+    clearInfo();
     logging_line(ERROR_ANOTHER, m_fileNameObject.toStdString().c_str(),
                  __LINE__, "FILE NOT FOUND", 1);
   }
@@ -402,27 +401,31 @@ int MyWidgetOPenGL::updateData() {
 // -------------------------------------------------------
 
 void MyWidgetOPenGL::updateInfoObject() {
-  QFileInfo info(m_fileNameObject);
+  if (m_isValid) {
+    QFileInfo info(m_fileNameObject);
 
-  m_labelName->setText("Name: " + info.baseName());
-  m_labelVertes->setText("    Vertes: " +
-                         QString::number(m_points.count_points));
-  m_labelPolygons->setText(
-      "    Polygons: " +
-      QString::number(m_polygons.poligons->columns * m_polygons.rows));
+    m_labelName->setText("Name: " + info.baseName());
+    m_labelVertes->setText("    Vertes: " +
+                           QString::number(m_points.count_points));
+    m_labelPolygons->setText(
+        "    Polygons: " +
+        QString::number(m_polygons.poligons->columns * m_polygons.rows));
+  }
 }
 
 // -------------------------------------------------------
 
 void MyWidgetOPenGL::changeRotate() {
   // muose rotate
-  if (m_rotateX) {
-    turn_obj(m_rotateX, &m_points, 2);
+  if (m_isValid) {
+    if (m_rotateX) {
+      turn_obj(m_rotateX, &m_points, 2);
+    }
+    if (m_rotateY) {
+      turn_obj(m_rotateY, &m_points, 1);
+    }
+    update();
   }
-  if (m_rotateY) {
-    turn_obj(m_rotateY, &m_points, 1);
-  }
-  update();
 }
 
 // -------------------------------------------------------
@@ -459,8 +462,6 @@ void MyWidgetOPenGL::defaultConfigSimple() {
   m_moveBeforeX = 0;
   m_moveBeforeY = 0;
   m_moveBeforeZ = 0;
-
-  // TODO: change default
 }
 
 // -------------------------------------------------------
@@ -613,7 +614,7 @@ void MyWidgetOPenGL::moveZ(float value_) { moveDirection(MOVE_Z, value_); }
 
 // -------------------------------------------------------
 
-void MyWidgetOPenGL::displayObjects(e_typeDraw type_) {
+void MyWidgetOPenGL::drawObjects(e_typeDraw type_) {
   auto type = type_ == 0 ? GL_LINE_LOOP : GL_POINTS;
   double x, y, z;
 
@@ -636,24 +637,41 @@ void MyWidgetOPenGL::displayObjects(e_typeDraw type_) {
 
 // -------------------------------------------------------
 
+void MyWidgetOPenGL::drawInfo() {
+  m_labelName->setText("Name: ");
+  m_labelVertes->setText("Vertes: ");
+  m_labelPolygons->setText("Polygons: ");
+  m_layoutH->setAlignment(Qt::AlignTop);
+  m_layoutH->addStretch();
+  m_layoutH->addWidget(m_labelName);
+  m_layoutH->addWidget(m_labelVertes);
+  m_layoutH->addWidget(m_labelPolygons);
+}
+
+// -------------------------------------------------------
+
 void MyWidgetOPenGL::incrementScale() {
-  if (m_countScale < m_maxScale) {
-    ++m_countScale;
-    scale_obj(1.05, &m_points);
-    emit on_scaleStep();
+  if (m_isValid) {
+    if (m_countScale < m_maxScale) {
+      ++m_countScale;
+      scale_obj(1.05, &m_points);
+      emit on_scaleStep();
+    }
+    update();
   }
-  update();
 }
 
 // -------------------------------------------------------
 
 void MyWidgetOPenGL::decrementScale() {
-  if (m_countScale > m_minScale) {
-    --m_countScale;
-    scale_obj(0.95, &m_points);
-    emit on_scaleStep();
+  if (m_isValid) {
+    if (m_countScale > m_minScale) {
+      --m_countScale;
+      scale_obj(0.95, &m_points);
+      emit on_scaleStep();
+    }
+    update();
   }
-  update();
 }
 
 // -------------------------------------------------------
@@ -684,39 +702,41 @@ void MyWidgetOPenGL::lineScaleChange(int value_) {
 // -------------------------------------------------------
 
 void MyWidgetOPenGL::moveDirection(e_moveType direction_, float value_) {
-  // TODO: fix move
-  value_ = value_ / 100;
-  point_t t;
-  float tmp = 0;
-  int isError = 0;
+  if (m_isValid) {
+    value_ = value_ * m_points.max_size / 99;
 
-  switch (direction_) {
-  case MOVE_X:
-    tmp = m_moveBeforeX - value_;
-    t = {tmp, 0, 0};
-    m_moveBeforeX = value_;
-    break;
-  case MOVE_Y:
-    tmp = m_moveBeforeY - value_;
-    t = {0, tmp, 0};
-    m_moveBeforeY = value_;
-    break;
-  case MOVE_Z:
-    tmp = m_moveBeforeZ - value_;
-    t = {0, 0, tmp};
-    m_moveBeforeZ = value_;
-    break;
-  default:
-    isError = 1;
-    logging_line(ERROR_ANOTHER, "", __LINE__,
-                 "[ERROR] move direction [x, y, z]", 1);
-    break;
-  }
+    point_t t;
+    float tmp = 0;
+    int isError = 0;
 
-  if (!isError) {
-    move_obj(&t, &m_points);
+    switch (direction_) {
+    case MOVE_X:
+      tmp = m_moveBeforeX - value_;
+      t = {tmp, 0, 0};
+      m_moveBeforeX = value_;
+      break;
+    case MOVE_Y:
+      tmp = m_moveBeforeY - value_;
+      t = {0, tmp, 0};
+      m_moveBeforeY = value_;
+      break;
+    case MOVE_Z:
+      tmp = m_moveBeforeZ - value_;
+      t = {0, 0, tmp};
+      m_moveBeforeZ = value_;
+      break;
+    default:
+      isError = 1;
+      logging_line(ERROR_ANOTHER, "", __LINE__,
+                   "[ERROR] move direction [x, y, z]", 1);
+      break;
+    }
+
+    if (!isError) {
+      move_obj(&t, &m_points);
+    }
+    update();
   }
-  update();
 }
 
 // -------------------------------------------------------
@@ -725,42 +745,46 @@ void MyWidgetOPenGL::moveRotation(e_moveRotatinoType direction_, float value_) {
   float tmp = 0;
   int isError = 0;
 
-  switch (direction_) {
-  case MOVE_ROTATE_X:
-    tmp = m_rotateBeforeX - value_;
-    m_rotateBeforeX = value_;
-    break;
-  case MOVE_ROTATE_Y:
-    tmp = m_rotateBeforeY - value_;
-    m_rotateBeforeY = value_;
-    break;
-  case MOVE_ROTATE_Z:
-    tmp = m_rotateBeforeZ - value_;
-    m_rotateBeforeZ = value_;
-    break;
-  default:
-    isError = 1;
-    logging_line(ERROR_ANOTHER, "", __LINE__,
-                 "[ERROR] move rotation direction [x, y, z]", 1);
-    break;
-  }
+  if (m_isValid) {
+    switch (direction_) {
+    case MOVE_ROTATE_X:
+      tmp = m_rotateBeforeX - value_;
+      m_rotateBeforeX = value_;
+      break;
+    case MOVE_ROTATE_Y:
+      tmp = m_rotateBeforeY - value_;
+      m_rotateBeforeY = value_;
+      break;
+    case MOVE_ROTATE_Z:
+      tmp = m_rotateBeforeZ - value_;
+      m_rotateBeforeZ = value_;
+      break;
+    default:
+      isError = 1;
+      logging_line(ERROR_ANOTHER, "", __LINE__,
+                   "[ERROR] move rotation direction [x, y, z]", 1);
+      break;
+    }
 
-  if (!isError) {
-    turn_obj(tmp, &m_points, direction_);
+    if (!isError) {
+      turn_obj(tmp, &m_points, direction_);
+    }
+    update();
   }
-  update();
 }
 
 // -------------------------------------------------------
 
 int MyWidgetOPenGL::countNumber(int number_) {
   int result = 0;
+
   if (number_ > 0) {
     while (number_ > 0) {
       number_ /= 10;
       result++;
     }
   }
+
   return result;
 }
 
@@ -780,4 +804,12 @@ void MyWidgetOPenGL::updatePerspective() {
             m_sizePerspective, -m_sizePerspective, m_sizePerspective);
     m_perspective = 4;
   }
+}
+
+// -------------------------------------------------------
+
+void MyWidgetOPenGL::clearInfo() {
+  m_labelName->setText("");
+  m_labelVertes->setText("");
+  m_labelPolygons->setText("");
 }

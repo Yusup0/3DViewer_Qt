@@ -13,7 +13,7 @@
 // m_gif(new QGifImage),
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
-      m_myWidget(new MyWidgetOPenGL()), m_isPositiveHorizontal(1),
+      m_myWidget(new MyWidgetOPenGL(this)), m_isPositiveHorizontal(1),
       m_isPositiveVertical(1), m_gif(new GifCreator(m_myWidget)),
       m_timerGif(new QTimer(this)), m_labelGifTime(new QLabel(m_myWidget)) {
   logging(ERROR_OK, "[BEGIN] mainWindow", 1);
@@ -41,10 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 // -------------------------------------------------------
 
-MainWindow::~MainWindow() {
-  delete m_myWidget;
-  delete ui;
-}
+MainWindow::~MainWindow() { delete ui; }
 
 // -------------------------------------------------------
 
@@ -53,12 +50,6 @@ void MainWindow::openFileDialog() {
       this, tr("Open Object"), "./objects/", tr("Image Files (*.obj)"));
   m_myWidget->setFileNameObject(fileName);
   m_myWidget->update();
-}
-
-// -------------------------------------------------------
-
-// TODO: remove
-void MainWindow::clickCluck() {
 }
 
 // -------------------------------------------------------
@@ -84,12 +75,9 @@ void MainWindow::rotateZ(int value_) {
 
 // -------------------------------------------------------
 
-
 void MainWindow::connectsConfiguration() {
   connect(ui->pb_openFIle, &QPushButton::clicked, this,
           &MainWindow::openFileDialog);
-
-  connect(ui->pb_test1, &QPushButton::clicked, this, &MainWindow::clickCluck);
 
   connect(ui->widget, &QOpenGLWidget::resized, this, [&]() {
     m_myWidget->resize(ui->widget->width(), ui->widget->height());
@@ -104,6 +92,9 @@ void MainWindow::connectsConfiguration() {
   connect(ui->hSlidder_pointsSize, &QSlider::valueChanged, this,
           &MainWindow::changeSizePoint);
 
+  connect(m_myWidget, &MyWidgetOPenGL::on_changeColorGifTime, this,
+          &MainWindow::changeColorGifTime);
+
   connectsPointType();
   connectsRotate();
   connectsMoves();
@@ -116,7 +107,6 @@ void MainWindow::connectsConfiguration() {
 };
 
 // -------------------------------------------------------
-
 
 void MainWindow::changeRotateSliders() {
   int x = (m_myWidget->rotateBuffX() % ROTATE_VALUE);
@@ -137,6 +127,7 @@ void MainWindow::screenshot(int isJpeg) {
   QString current_time = ctime(&ttime);
   QString format;
   QPixmap pix(m_myWidget->size() * 2);
+  QMessageBox msgBox;
 
   QString path = QDir::currentPath() + "/screenshots/" + current_time;
   path.chop(1);
@@ -152,11 +143,9 @@ void MainWindow::screenshot(int isJpeg) {
 
   pix.setDevicePixelRatio(2);
   m_myWidget->render(&pix);
-  int res = pix.save(path, "JPG", 100);
-  qDebug() << "path: " << path;
-  QMessageBox msgBox;
+  // qDebug() << "path: " << path;
 
-  if (res) {
+  if (pix.save(path, format.toLatin1(), 100)) {
     msgBox.setText("Screenshot OK (" + format + ").");
     logging(ERROR_OK, "[OK] SCREENSHOTS", 1);
     msgBox.exec();
@@ -165,6 +154,15 @@ void MainWindow::screenshot(int isJpeg) {
     logging(ERROR_ANOTHER, "[ERROR] SCREENSHOTS", 1);
     msgBox.exec();
   }
+}
+
+// -------------------------------------------------------
+
+void MainWindow::changeColorGifTime(int isBlack_) {
+  if (isBlack_)
+    m_labelGifTime->setStyleSheet("QLabel { color : black; }");
+  else
+    m_labelGifTime->setStyleSheet("QLabel { color : white; }");
 }
 
 // -------------------------------------------------------
@@ -255,8 +253,9 @@ void MainWindow::startGif() {
     m_myWidget->render(&gif);
     gif.scaled(640, 480, Qt::IgnoreAspectRatio);
     if (!gif.save(m_gif->imageFilePathMask().arg(m_frameNum))) {
-        logging_line(ERROR_ANOTHER, "", __LINE__, "[ERROR] gif not save image.", 1);
-    } 
+      logging_line(ERROR_ANOTHER, "", __LINE__, "[ERROR] gif not save image.",
+                   1);
+    }
 
     time = m_startTime / 1000;
     m_labelGifTime->setText(QString::number(time));

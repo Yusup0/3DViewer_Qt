@@ -24,7 +24,6 @@ signals:
 
 private slots:
   void openFileDialog();
-  void clickCluck();
 
   void rotateX(int value_);
   void rotateY(int value_);
@@ -58,7 +57,6 @@ private:
 
   bool m_isPositiveHorizontal;
   bool m_isPositiveVertical;
-  // QGifImage *m_gif;
   GifCreator *m_gif;
   QTimer *m_timerGif;
   QLabel *m_labelGifTime;
@@ -84,5 +82,6 @@ private:
   void connectMouseRotate();
 
   void screenshot(int isJpeg = 1);
+  void changeColorGifTime(int isBlack_);
 };
 #endif // MAINWINDOW_HPP

@@ -58,9 +58,7 @@ public:
   void rotateZ(int value_);
 
   void lineWidth(GLfloat nWidth_);
-
   void setScale(float value_);
-  // void changeScale(float value_);
 
   void setRotateBuffX(int newRotateBuffX);
   void setRotateBuffY(int newRotateBuffY);
@@ -78,11 +76,8 @@ public:
   void setBackgroundColor(int value_);
 
   void setLineWidth(double newLineWidth);
-
   void setPointType(int newPointType);
-
   void setLineType(int newLineType);
-
   void setPointSize(double newPointSize);
 
   void setPerspective(int value_);
@@ -106,6 +101,7 @@ signals:
   void on_moveChange(float value_);
   void on_changeRotate();
   void on_scaleStep();
+  void on_changeColorGifTime(int isBlack_);
 
 protected:
   virtual void initializeGL() override;
@@ -184,7 +180,9 @@ private:
   bool loadConfig(QString path_ = "");
   bool writeToFileConfig(QString path_ = "");
 
-  void displayObjects(e_typeDraw type_);
+  void drawObjects(e_typeDraw type_);
+  void drawInfo();
+  void clearInfo();
 };
 
 #endif // MYWIDGETOPENGL_HPP

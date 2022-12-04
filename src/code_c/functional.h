@@ -1,9 +1,6 @@
 #ifndef FUNCTIONAL_H
 #define FUNCTIONAL_H
 
-#include <math.h>
-#include <float.h>
-
 typedef struct point_struct {
   double x;
   double y;
@@ -40,11 +37,10 @@ void remove_matrix(matrix_t *A);
 int mult_matrix(matrix_t *A, matrix_t *B, matrix_t *result);
 void move_obj(point_t *move_point, points_a *points_str);
 void promer();
-void print_matrix(matrix_t *matrix);
-int pars_file(char const *file, points_a *points_array, matrix_poligon *polygons);
+int pars_file(char const *file, points_a *points_array,
+              matrix_poligon *polygons);
 int count_poligon(char *string);
 char *str_replace(char *str, char symbol);
-void print_pol(matrix_poligon *polygons);
 void free_matrix_int(matrix_poligon *polygons);
 void create_matrix_int(matrix_poligon *polygons, int memory_t, int columns);
 void expand_matrix_int(matrix_poligon *polygons, int *memory_t, int columns);

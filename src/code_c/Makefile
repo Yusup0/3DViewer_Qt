@@ -1,10 +1,10 @@
 CC=gcc
-CFLAGS=-g -Wall -Wextra -Werror  # -std=c11  # -pedantic 
-GCOVFLAGS:=-fprofile-arcs -ftest-coverage   -fsanitize=address
-LDFLAGS:=-lcheck --coverage -fsanitize=address
+CFLAGS=-g -p -Wall -Wextra -Werror -std=c11 -pedantic
+GCOVFLAGS:=-fprofile-arcs -ftest-coverage  -fsanitize=address
+LDFLAGS:=-lcheck -lgcov  -fsanitize=address
 
 ifeq ($(shell uname), Linux)
-LDFLAGS +=-pthread -lgcov -lcheck -fsanitize=address -lrt -lm # -lsubunit -lrt -lm 
+LDFLAGS +=-pthread -lrt -lm -fsanitize=address  # -lsubunit -lrt -lm 
 endif
 
 SOURCES:= functional.c logging_manager.c
@@ -12,7 +12,7 @@ SOURCES:= functional.c logging_manager.c
 OBJECTS = $(addprefix objects/,$(SOURCES:.c=.o))
 OBJECTS_GCOV = $(addprefix gcov_obj/,$(SOURCES:.c=.o))
 
-.PHONY: all clean rebuild lint
+.PHONY: clean rebuild lint
 
 all: functional.a 
 
@@ -26,7 +26,6 @@ functional.a: $(OBJECTS)
 	ar -src $@ $(OBJECTS)
 
 test: functional_gcov.a gcov_obj/functional_test.o
-	# $(CC) gcov_obj/s21_read_object_test.o gcov_obj/s21_functional_test.o  functional_gcov.a -g -o $@ $(LDFLAGS) $(GCOVFLAGS)
 	$(CC) gcov_obj/functional.o  gcov_obj/functional_test.o functional_gcov.a -g -o $@ $(LDFLAGS) $(GCOVFLAGS)
 	./test
 
@@ -41,6 +40,11 @@ gcov_obj/%.o: %.c
 objects/%.o: %.c
 	@echo "!!! objects"
 	$(CC) -g -Wall -Werror -Wextra  -c $< -o $@
+
+# dvi:
+
+# dist:
+
 
 
 rebuild: clean all

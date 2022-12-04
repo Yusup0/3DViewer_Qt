@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MY_PI 3.1415926535
+
 void scale_obj(double scale, points_a *points_str) {
   matrix_t matrix_scale;
   create_matrix(4, 4, &matrix_scale);
@@ -41,7 +43,7 @@ void turn_obj(double rotation, points_a *points_str, int axis) {
 /*          ***** ***** ***** *****          */
 
 void matrix_rotation(matrix_t *matrix_turn, double rotation, int axis) {
-  double gradus = rotation * M_PI / 180.0;
+  double gradus = rotation * MY_PI / 180.0;
   if (axis == 1) {
     matrix_turn->matrix[1][1] = cos(gradus);
     matrix_turn->matrix[1][2] = sin(gradus);
@@ -166,6 +168,7 @@ int pars_file(char const *file, points_a *points_array, matrix_poligon *polygons
 
   points_array->points = (point_t *)calloc(memory_v, sizeof(point_t));
   polygons->poligons = (matrix_int *)calloc(memory_t, sizeof(matrix_int));
+
   if ((fp = fopen(file, "r")) != NULL) {
       points_array->max_size = 0;
     while (fgets(string, 1000, fp) != NULL) {
@@ -238,7 +241,7 @@ char *str_replace(char *str, char symbol) {
 /*          ***** ***** ***** *****          */
 
 void free_matrix_int(matrix_poligon *polygons) {
-    if (polygons) {
+    if (polygons->poligons) {
         for (int i = 0; i < polygons->rows; i++) {
             if (polygons->poligons[i].points) {
                 free(polygons->poligons[i].points);

@@ -11,8 +11,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_CXX_FLAGS "-g -Wall -Wextra -Werror -fsanitize=address")
-# set(CMAKE_CXX_FLAGS "-g -Wall -Wextra -Werror -ggdb")
+set(CMAKE_CXX_FLAGS "-g -Wall -Wextra -Werror -ggdb")
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core OpenGLWidgets Gui REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core OpenGLWidgets Gui REQUIRED)
@@ -29,7 +28,6 @@ set(PROJECT_SOURCES
 )
 
 set(PROJECT_HEADERS
-  qrc/objects.qrc
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -51,7 +49,6 @@ target_include_directories(3DV
   ${CMAKE_CURRENT_LIST_DIR}/includes
   ${CMAKE_CURRENT_LIST_DIR}/code_c
   ${CMAKE_CURRENT_LIST_DIR}/objects
-  ${CMAKE_CURRENT_LIST_DIR}/qrc
   ${CMAKE_CURRENT_LIST_DIR}/libBin
 )
 
