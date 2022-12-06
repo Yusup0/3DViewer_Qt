@@ -6,20 +6,22 @@ all: checkdir install start
 
 clean:
 	rm -rf ./BUILD
-	rm -rf ./BUILD2
 	rm -f 3d.tar
-# 	rm -f CMakeLists.txt.user
 	rm -rf ./libBin
+	rm -rf ./log.txt
+	rm -rf ./screenshots./*
+	rm -rf ./gifs./*
 	cd ./code_c/ && make clean
 
 install:
 	cd BUILD && cmake .. && make
 
-uninstall: clean
-	
+uninstall:
+	rm -rf ./BUILD
+	rm -f 3d.tar
+	rm -rf ./libBin
 
 checkdir:
-	@echo "checkdir"
 	mkdir -p BUILD
 
 start:
@@ -38,6 +40,18 @@ endif
 tests:
 	cd ./code_c && make test && ./test
 
+gcov_report:
+	cd ./code_c/ && make clean && make gcov_report
+ifeq ($(current_os), Linux)
+	firefox ./code_c/gcov_report/index.html
+else
+	open ./code_c/gcov_report/index.html
+endif
+
+check_format:
+	clang-format -n ./lib/3DViewer/includes/*.hpp ./lib/3DViewer/srcs/*.cpp ./lib/QtGifImage/includes/*.h ./lib/QtGifImage/srcs/*.cpp ./code_c/*.c ./code_c/*.h ./code_c/gcov_obj/*.c 
+
+check_fix:
+	clang-format -i ./lib/3DViewer/includes/*.hpp ./lib/3DViewer/srcs/*.cpp ./lib/QtGifImage/includes/*.h ./lib/QtGifImage/srcs/*.cpp ./code_c/*.c ./code_c/*.h ./code_c/gcov_obj/*.c 
 
 re: clean all
-

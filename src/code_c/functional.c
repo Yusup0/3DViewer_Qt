@@ -109,10 +109,10 @@ int create_matrix(int rows, int columns, matrix_t *result) {
   if (rows > 0 && columns > 0) {
     result->rows = rows;
     result->columns = columns;
-    if (!(result->matrix = (double **)calloc(rows,  sizeof(double*))))
+    if (!(result->matrix = (double **)calloc(rows, sizeof(double *))))
       back = 1;
     for (int i = 0; i < rows; i++)
-      if (!(result->matrix[i] = (double *)calloc(columns , sizeof(double))))
+      if (!(result->matrix[i] = (double *)calloc(columns, sizeof(double))))
         back = 1;
   } else {
     back = 1;
@@ -153,7 +153,8 @@ int mult_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {
 
 /*          ***** ***** ***** *****          */
 
-int pars_file(char const *file, points_a *points_array, matrix_poligon *polygons) {
+int pars_file(char const *file, points_a *points_array,
+              matrix_poligon *polygons) {
   FILE *fp;
   char string[1000] = {0};
   char sep[4] = {" "};
@@ -170,7 +171,7 @@ int pars_file(char const *file, points_a *points_array, matrix_poligon *polygons
   polygons->poligons = (matrix_int *)calloc(memory_t, sizeof(matrix_int));
 
   if ((fp = fopen(file, "r")) != NULL) {
-      points_array->max_size = 0;
+    points_array->max_size = 0;
     while (fgets(string, 1000, fp) != NULL) {
       istr = strtok(string, sep);
       if (istr[0] == 'v' && istr[1] == '\0') {
@@ -182,7 +183,7 @@ int pars_file(char const *file, points_a *points_array, matrix_poligon *polygons
         points_array->points[count1].x = strtod(strtok(NULL, sep), &trash);
         points_array->points[count1].y = strtod(strtok(NULL, sep), &trash);
         points_array->points[count1].z = strtod(strtok(NULL, sep), &trash);
-        add_max_size(points_array->points[count1],  &points_array->max_size);
+        add_max_size(points_array->points[count1], &points_array->max_size);
         count1++;
       } else if (istr[0] == 'f' && istr[1] == '\0') {
         count3 = count_poligon(string + 2);
@@ -211,9 +212,12 @@ int pars_file(char const *file, points_a *points_array, matrix_poligon *polygons
 /*          ***** ***** ***** *****          */
 
 void add_max_size(point_t point, double *max) {
-    if (fabs(point.x) > *max) *max = fabs(point.x);
-    if (fabs(point.y) > *max) *max = fabs(point.y);
-    if (fabs(point.z) > *max) *max = fabs(point.z);
+  if (fabs(point.x) > *max)
+    *max = fabs(point.x);
+  if (fabs(point.y) > *max)
+    *max = fabs(point.y);
+  if (fabs(point.z) > *max)
+    *max = fabs(point.z);
 }
 
 /*          ***** ***** ***** *****          */
@@ -241,14 +245,14 @@ char *str_replace(char *str, char symbol) {
 /*          ***** ***** ***** *****          */
 
 void free_matrix_int(matrix_poligon *polygons) {
-    if (polygons->poligons) {
-        for (int i = 0; i < polygons->rows; i++) {
-            if (polygons->poligons[i].points) {
-                free(polygons->poligons[i].points);
-                polygons->poligons[i].points = NULL;
-            }
-        }
-        free(polygons->poligons);
-        polygons->poligons = NULL;
+  if (polygons->poligons) {
+    for (int i = 0; i < polygons->rows; i++) {
+      if (polygons->poligons[i].points) {
+        free(polygons->poligons[i].points);
+        polygons->poligons[i].points = NULL;
+      }
     }
+    free(polygons->poligons);
+    polygons->poligons = NULL;
+  }
 }

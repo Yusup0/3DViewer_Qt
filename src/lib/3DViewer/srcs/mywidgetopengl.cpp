@@ -30,22 +30,19 @@ MyWidgetOPenGL::MyWidgetOPenGL(QWidget *parent)
       m_moveBeforeX(0), m_moveBeforeY(0), m_moveBeforeZ(0),
       m_labelName(new QLabel(this)), m_labelVertes(new QLabel(this)),
       m_labelPolygons(new QLabel(this)), m_layoutH(new QHBoxLayout(this)),
-      m_isMouse(false)
-// m_widthLine(0.5),
-{
+      m_isMouse(false), m_tmpColor({152, 84, 93}) {
   logging(ERROR_OK, "[BEGIN] mywidgetopengl", 1);
 
-  defaultConfig();
   defaultConfigSimple();
   m_points.points = NULL;
   m_polygons.poligons = NULL;
 
   this->installEventFilter(this);
   resize(800, 600);
-  loadConfig();
 
   m_initialized = false;
   drawInfo();
+  loadConfig();
 
   logging(ERROR_OK, "[OK] mywidgetopengl", 1);
 }
@@ -72,11 +69,7 @@ void MyWidgetOPenGL::initializeGL() {
   glEnable(GL_DEPTH_TEST); // dissabling the buffer deep
   glShadeModel(GL_FLAT);
 
-  m_backgroundColor.setRgb(27, 39, 50);
   m_initialized = 1;
-
-  // QString fileName = QDir::currentPath() + "/objects/cow.obj";
-  // setFileNameObject(fileName);
 
   logging(ERROR_OK, "[OK] initializeGL", 1);
 }
@@ -93,44 +86,43 @@ void MyWidgetOPenGL::resizeGL(int w_, int h_) {
 // --------------------------------------------------
 
 void MyWidgetOPenGL::paintGL() {
-  if (!m_initialized || !m_isValid)
-    m_backgroundColor.setRgb(152, 84, 93);
-  else
+  if (!m_initialized || !m_isValid) {
+    glClearColor(m_tmpColor.redF(), m_tmpColor.blueF(), m_tmpColor.greenF(),
+                 0.1);
+  } else {
+
     glClearColor(m_backgroundColor.redF(), m_backgroundColor.greenF(),
-                 m_backgroundColor.blueF(), 1.0f);
+                 m_backgroundColor.blueF(), 0.0f);
+  }
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-  if (!m_initialized || !m_isValid) {
-    return;
-  }
+  if (m_initialized && m_isValid) {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    if (m_isValid) {
+      glEnable(GL_BLEND);
+      glEnable(GL_MULTISAMPLE);
+      glLineWidth(m_lineWidth);
 
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  if (m_isValid) {
-    glEnable(GL_BLEND);
-    glEnable(GL_MULTISAMPLE);
-    glLineWidth(m_lineWidth);
+      glPointSize(m_pointSize);
+      if (m_lineType) {
+        glEnable(GL_LINE_STIPPLE);
+        glLineStipple(3, 255);
+      }
 
-    if (m_lineType) {
-      glEnable(GL_LINE_STIPPLE);
-      glLineStipple(3, 255);
-    }
+      updatePerspective();
+      drawObjects(e_typeDraw::TYPE_LINES);
 
-    updatePerspective();
-    drawObjects(e_typeDraw::TYPE_LINES);
+      if (m_lineType) {
+        glDisable(GL_LINE_STIPPLE);
+      }
 
-    if (m_lineType) {
-      glDisable(GL_LINE_STIPPLE);
-    }
-
-    glPointSize(m_pointSize);
-    if (m_pointType == 1) {
-      glEnable(GL_POINT_SMOOTH);
-    }
-    if (m_pointType) {
-      drawObjects(e_typeDraw::TYPE_POINTS);
-    }
-    if (m_pointType == 1) {
-      glDisable(GL_POINT_SMOOTH);
+      if (m_pointType == 1) {
+        glEnable(GL_POINT_SMOOTH);
+        drawObjects(e_typeDraw::TYPE_POINTS);
+        glDisable(GL_POINT_SMOOTH);
+      } else if (m_pointType == 2) {
+        drawSquare();
+      }
     }
   }
 }
@@ -485,35 +477,35 @@ bool MyWidgetOPenGL::loadConfig(QString path_) {
     QJsonObject sett2 = d.object();
     QJsonValue value = sett2.value(QString("lineType"));
     if (!value.isUndefined() && is_res) {
-      m_lineType = (value.toString().toInt());
+      m_lineType = (value.toInt());
     } else {
       is_res = 0;
     }
 
     value = sett2.value(QString("perspective"));
     if (!value.isUndefined() && is_res) {
-      m_perspective = (value.toString().toInt());
+      m_perspective = (value.toInt());
     } else {
       is_res = 0;
     }
 
     value = sett2.value(QString("lineWidth"));
     if (!value.isUndefined() && is_res) {
-      m_lineWidth = (value.toString().toInt());
+      m_lineWidth = (value.toInt());
     } else {
       is_res = 0;
     }
 
     value = sett2.value(QString("pointSize"));
     if (!value.isUndefined() && is_res) {
-      m_pointSize = (value.toString().toUInt());
+      m_pointSize = (value.toInt());
     } else {
       is_res = 0;
     }
 
     value = sett2.value(QString("pointType"));
     if (!value.isUndefined() && is_res) {
-      m_pointType = (value.toString().toUInt());
+      m_pointType = (value.toInt());
     } else {
       is_res = 0;
     }
@@ -522,8 +514,7 @@ bool MyWidgetOPenGL::loadConfig(QString path_) {
     QJsonArray arr = value.toArray();
 
     if (!value.isUndefined() && value.isArray() && arr.size() == 3 && is_res) {
-      m_lineColor = {arr[0].toString().toInt(), arr[1].toString().toInt(),
-                     arr[2].toString().toInt()};
+      m_lineColor = {arr[0].toInt(), arr[1].toInt(), arr[2].toInt()};
     } else {
       is_res = 0;
     }
@@ -532,8 +523,16 @@ bool MyWidgetOPenGL::loadConfig(QString path_) {
     arr = value.toArray();
 
     if (!value.isUndefined() && value.isArray() && arr.size() == 3 && is_res) {
-      m_pointColor = {arr[0].toString().toInt(), arr[1].toString().toInt(),
-                      arr[2].toString().toInt()};
+      m_pointColor = {arr[0].toInt(), arr[1].toInt(), arr[2].toInt()};
+    } else {
+      is_res = 0;
+    }
+
+    value = sett2.value(QString("backColor"));
+    arr = value.toArray();
+
+    if (!value.isUndefined() && value.isArray() && arr.size() == 3 && is_res) {
+      m_backgroundColor = {arr[0].toInt(), arr[1].toInt(), arr[2].toInt()};
     } else {
       is_res = 0;
     }
@@ -583,6 +582,13 @@ bool MyWidgetOPenGL::writeToFileConfig(QString path_) {
     jsonArrPointColor.push_back(m_pointColor.blue());
 
     tmp.insert("pointColor", jsonArrPointColor);
+
+    QJsonArray jsonArrBackColor;
+    jsonArrBackColor.push_back(m_backgroundColor.red());
+    jsonArrBackColor.push_back(m_backgroundColor.green());
+    jsonArrBackColor.push_back(m_backgroundColor.blue());
+
+    tmp.insert("backColor", jsonArrBackColor);
 
     QTextStream out(&file);
     QJsonDocument jsonDocument;
@@ -802,7 +808,7 @@ void MyWidgetOPenGL::updatePerspective() {
     glLoadIdentity();
     glOrtho(-m_sizePerspective, m_sizePerspective, -m_sizePerspective,
             m_sizePerspective, -m_sizePerspective, m_sizePerspective);
-    m_perspective = 4;
+    m_perspective = 5;
   }
 }
 
@@ -813,3 +819,26 @@ void MyWidgetOPenGL::clearInfo() {
   m_labelVertes->setText("");
   m_labelPolygons->setText("");
 }
+
+// -------------------------------------------------------
+
+void MyWidgetOPenGL::drawSquare() {
+  glColor3f(m_pointColor.redF(), m_pointColor.greenF(), m_pointColor.blueF());
+  double x, y, z, del = m_perspective == 4 ? 9 : 23;
+  del = m_points.max_size / del * m_pointSize / 20;
+  for (int i = 1; i < m_polygons.rows; i++) {
+    for (int j = 0; j < m_polygons.poligons[i].columns; j++) {
+      glBegin(GL_POLYGON);
+      x = m_points.points[m_polygons.poligons[i].points[j]].x;
+      y = m_points.points[m_polygons.poligons[i].points[j]].y;
+      z = m_points.points[m_polygons.poligons[i].points[j]].z;
+      glVertex3f(x - del, y - del, z);
+      glVertex3f(x + del, y - del, z);
+      glVertex3f(x + del, y + del, z);
+      glVertex3f(x - del, y + del, z);
+      glEnd();
+    }
+  }
+}
+
+// -------------------------------------------------------

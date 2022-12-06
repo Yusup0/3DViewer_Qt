@@ -1,17 +1,22 @@
 {
-    "lineColor": [
-        55,
-        105,
+    "backColor": [
+        40,
+        43,
         60
+    ],
+    "lineColor": [
+        105,
+        100,
+        55
     ],
     "lineType": 0,
     "lineWidth": 0,
-    "perspective": 4,
+    "perspective": 5,
     "pointColor": [
-        55,
-        98,
-        105
+        255,
+        255,
+        255
     ],
-    "pointSize": 3,
-    "pointType": 2
+    "pointSize": 0,
+    "pointType": 0
 }

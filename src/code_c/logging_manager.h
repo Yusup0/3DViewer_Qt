@@ -4,12 +4,12 @@
 #define ft_unuased(data) (void)(data)
 
 typedef enum s_error_state {
-    ERROR_OK = 0,
-    ERROR_FILE_NOT_EXISTS,
-    ERROR_DYNAMIC_MEMORY,
-    ERROR_SEGMENTATION,
-    ERROR_ANOTHER,
-    ERROR_END,
+  ERROR_OK = 0,
+  ERROR_FILE_NOT_EXISTS,
+  ERROR_DYNAMIC_MEMORY,
+  ERROR_SEGMENTATION,
+  ERROR_ANOTHER,
+  ERROR_END,
 } s_error_state;
 
 // -------------------------------------------------------

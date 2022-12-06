@@ -160,6 +160,7 @@ private:
   QHBoxLayout *m_layoutH;
 
   bool m_isMouse;
+  QColor m_tmpColor;
 
   points_a m_points;
   matrix_poligon m_polygons;
@@ -183,6 +184,7 @@ private:
   void drawObjects(e_typeDraw type_);
   void drawInfo();
   void clearInfo();
+  void drawSquare();
 };
 
 #endif // MYWIDGETOPENGL_HPP

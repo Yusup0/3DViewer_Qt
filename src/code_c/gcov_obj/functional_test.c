@@ -9,7 +9,6 @@
 
 #define IS_TEST_TURN_ON 0
 
-
 int eq_double(double num1, double num2) { return fabs(num1 - num2) < 1e-5; }
 
 int size_eq_matrix(matrix_t *A, matrix_t *B) {
