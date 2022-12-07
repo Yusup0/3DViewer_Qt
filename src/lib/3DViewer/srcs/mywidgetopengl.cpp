@@ -33,16 +33,17 @@ MyWidgetOPenGL::MyWidgetOPenGL(QWidget *parent)
       m_isMouse(false), m_tmpColor({152, 84, 93}) {
   logging(ERROR_OK, "[BEGIN] mywidgetopengl", 1);
 
+  // defaultConfig();
   defaultConfigSimple();
   m_points.points = NULL;
   m_polygons.poligons = NULL;
 
   this->installEventFilter(this);
   resize(800, 600);
+  loadConfig();
 
   m_initialized = false;
   drawInfo();
-  loadConfig();
 
   logging(ERROR_OK, "[OK] mywidgetopengl", 1);
 }
@@ -69,7 +70,11 @@ void MyWidgetOPenGL::initializeGL() {
   glEnable(GL_DEPTH_TEST); // dissabling the buffer deep
   glShadeModel(GL_FLAT);
 
+  // m_backgroundColor.setRgb(27, 39, 50);
   m_initialized = 1;
+
+  // QString fileName = QDir::currentPath() + "/objects/cow.obj";
+  // setFileNameObject(fileName);
 
   logging(ERROR_OK, "[OK] initializeGL", 1);
 }
@@ -86,43 +91,42 @@ void MyWidgetOPenGL::resizeGL(int w_, int h_) {
 // --------------------------------------------------
 
 void MyWidgetOPenGL::paintGL() {
-  if (!m_initialized || !m_isValid) {
-    glClearColor(m_tmpColor.redF(), m_tmpColor.blueF(), m_tmpColor.greenF(),
-                 0.1);
-  } else {
-
+  if (!m_initialized || !m_isValid)
+    glClearColor(m_tmpColor.redF(), m_tmpColor.greenF(), m_tmpColor.blueF(),
+                 1.0f);
+  else
     glClearColor(m_backgroundColor.redF(), m_backgroundColor.greenF(),
-                 m_backgroundColor.blueF(), 0.0f);
-  }
+                 m_backgroundColor.blueF(), 1.0f);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-  if (m_initialized && m_isValid) {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    if (m_isValid) {
-      glEnable(GL_BLEND);
-      glEnable(GL_MULTISAMPLE);
-      glLineWidth(m_lineWidth);
+  if (!m_initialized || !m_isValid) {
+    return;
+  }
 
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  if (m_isValid) {
+    glEnable(GL_BLEND);
+    glEnable(GL_MULTISAMPLE);
+    glLineWidth(m_lineWidth);
+
+    if (m_lineType) {
+      glEnable(GL_LINE_STIPPLE);
+      glLineStipple(3, 255);
+    }
+
+    updatePerspective();
+    drawObjects(e_typeDraw::TYPE_LINES);
+
+    if (m_lineType) {
+      glDisable(GL_LINE_STIPPLE);
+    }
+    if (m_pointType == 1) {
+      glEnable(GL_POINT_SMOOTH);
       glPointSize(m_pointSize);
-      if (m_lineType) {
-        glEnable(GL_LINE_STIPPLE);
-        glLineStipple(3, 255);
-      }
-
-      updatePerspective();
-      drawObjects(e_typeDraw::TYPE_LINES);
-
-      if (m_lineType) {
-        glDisable(GL_LINE_STIPPLE);
-      }
-
-      if (m_pointType == 1) {
-        glEnable(GL_POINT_SMOOTH);
-        drawObjects(e_typeDraw::TYPE_POINTS);
-        glDisable(GL_POINT_SMOOTH);
-      } else if (m_pointType == 2) {
-        drawSquare();
-      }
+      drawObjects(e_typeDraw::TYPE_POINTS);
+      glDisable(GL_POINT_SMOOTH);
+    } else if (m_pointType == 2) {
+      drawSquare();
     }
   }
 }
@@ -374,6 +378,12 @@ int MyWidgetOPenGL::updateData() {
       m_sizePerspective = pow(10, countNumber(m_points.max_size));
 
       updateInfoObject();
+      emit on_changePerperpertiveRdb(m_perspective);
+
+      if (m_perspective == 4)
+        m_perspective = 1;
+      else if (m_perspective == 5)
+        m_perspective = 0;
       logging(ERROR_OK, "[OK] loadObject", 1);
     } else {
       clearInfo();
@@ -437,6 +447,8 @@ void MyWidgetOPenGL::defaultConfig() {
   m_pointType = 0;
   m_lineColor = {1, 1, 1};
   m_pointColor = {1, 1, 1};
+  m_backgroundColor = {1, 1, 1};
+  m_perspective = 0;
 }
 
 // -------------------------------------------------------
@@ -447,7 +459,6 @@ void MyWidgetOPenGL::defaultConfigSimple() {
   m_minScale = -40;
   m_maxPointSize = 25.0;
   m_minPointSize = 0.0;
-  m_perspective = 0;
   m_rotateBeforeX = 0;
   m_rotateBeforeY = 0;
   m_rotateBeforeZ = 0;
@@ -491,7 +502,7 @@ bool MyWidgetOPenGL::loadConfig(QString path_) {
 
     value = sett2.value(QString("lineWidth"));
     if (!value.isUndefined() && is_res) {
-      m_lineWidth = (value.toInt());
+      m_lineWidth = (value.toDouble());
     } else {
       is_res = 0;
     }
@@ -536,6 +547,7 @@ bool MyWidgetOPenGL::loadConfig(QString path_) {
     } else {
       is_res = 0;
     }
+
     logging(ERROR_OK, "[OK] loadConfig", 1);
   } else {
     logging_line(ERROR_FILE_NOT_EXISTS, filename.toStdString().c_str(),
@@ -564,6 +576,12 @@ bool MyWidgetOPenGL::writeToFileConfig(QString path_) {
     QJsonObject tmp;
 
     tmp.insert("lineType", m_lineType);
+
+    if (m_perspective == 4)
+      m_perspective = 1;
+    else if (m_perspective == 5)
+      m_perspective = 0;
+
     tmp.insert("perspective", m_perspective);
     tmp.insert("lineWidth", m_lineWidth);
     tmp.insert("pointType", m_pointType);
@@ -840,5 +858,3 @@ void MyWidgetOPenGL::drawSquare() {
     }
   }
 }
-
-// -------------------------------------------------------

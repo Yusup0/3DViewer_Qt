@@ -95,6 +95,9 @@ void MainWindow::connectsConfiguration() {
   connect(m_myWidget, &MyWidgetOPenGL::on_changeColorGifTime, this,
           &MainWindow::changeColorGifTime);
 
+  connect(m_myWidget, &MyWidgetOPenGL::on_changePerperpertiveRdb, this,
+          &MainWindow::changePerperpertiveRdb);
+
   connectsPointType();
   connectsRotate();
   connectsMoves();
@@ -118,7 +121,6 @@ void MainWindow::changeRotateSliders() {
   ui->lineEdit_rotateX->setText(QString::number(x));
   ui->lineEdit_rotateY->setText(QString::number(y));
   ui->lineEdit_rotateZ->setText(QString::number(z));
-  qDebug() << "on chngerotate";
 }
 
 void MainWindow::screenshot(int isJpeg) {
@@ -143,7 +145,6 @@ void MainWindow::screenshot(int isJpeg) {
 
   pix.setDevicePixelRatio(2);
   m_myWidget->render(&pix);
-  // qDebug() << "path: " << path;
 
   if (pix.save(path, format.toLatin1(), 100)) {
     msgBox.setText("Screenshot OK (" + format + ").");
@@ -273,7 +274,6 @@ void MainWindow::startGif() {
 
     m_timerGif->stop();
     qDebug() << "gif path: " << m_gif->gifFilePath();
-    qDebug() << "END GIF";
     m_labelGifTime->setText("");
   }
   m_startTime += 1000 / GIF_FPS;
@@ -424,4 +424,14 @@ void MainWindow::connectsLineWidth() {
           &MainWindow::changeWidthLines);
   connect(ui->lineEdit_widthLine, &QLineEdit::textEdited, this,
           [&](QString value) { changeWidthLines(value.toDouble()); });
+}
+
+// -------------------------------------------------------
+
+void MainWindow::changePerperpertiveRdb(int value_) {
+  Q_UNUSED(value_);
+  if (value_ == 1)
+    ui->radioButton_parallel->setChecked(true);
+  else
+    ui->radioButton_central->setChecked(true);
 }

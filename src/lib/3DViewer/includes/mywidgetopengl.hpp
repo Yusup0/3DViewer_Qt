@@ -98,10 +98,11 @@ public:
   int countNumber(int number);
 
 signals:
-  void on_moveChange(float value_);
+  // void on_moveChange(float value_);
   void on_changeRotate();
   void on_scaleStep();
   void on_changeColorGifTime(int isBlack_);
+  void on_changePerperpertiveRdb(int value);
 
 protected:
   virtual void initializeGL() override;

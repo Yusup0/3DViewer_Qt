@@ -45,6 +45,7 @@ private slots:
 
   void changeWidthLines(int value_);
   void changeSizePoint(int value_);
+  void changePerperpertiveRdb(int value_);
 
   void setPointType(int value_);
 
