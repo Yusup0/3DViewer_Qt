@@ -8,17 +8,16 @@ extern "C" {
 }
 
 void handler_sigsegv(int signum_) {
-    signal(signum_, SIG_DFL);
-    logging(ERROR_SEGMENTATION, NULL, 1);
-    exit(EXIT_FAILURE);
+  signal(signum_, SIG_DFL);
+  logging(ERROR_SEGMENTATION, NULL, 1);
+  exit(EXIT_FAILURE);
 }
 
 void handler_sigfpe(int signum_) {
-    signal(signum_, SIG_DFL);
-    logging(ERROR_SEGMENTATION, NULL, 1);
-    exit(EXIT_FAILURE);
+  signal(signum_, SIG_DFL);
+  logging(ERROR_SEGMENTATION, NULL, 1);
+  exit(EXIT_FAILURE);
 }
-
 
 int main(int argc, char *argv[]) {
   QApplication a(argc, argv);

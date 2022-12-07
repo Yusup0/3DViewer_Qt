@@ -49,9 +49,9 @@ else
 endif
 
 check_format:
-	clang-format -n ./lib/3DViewer/includes/*.hpp ./lib/3DViewer/srcs/*.cpp ./lib/QtGifImage/includes/*.h ./lib/QtGifImage/srcs/*.cpp ./code_c/*.c ./code_c/*.h ./code_c/gcov_obj/*.c 
+	clang-format -n ./srcs/main.cpp ./lib/3DViewer/includes/*.hpp ./lib/3DViewer/srcs/*.cpp ./lib/QtGifImage/includes/*.h ./lib/QtGifImage/srcs/*.cpp ./code_c/*.c ./code_c/*.h ./code_c/gcov_obj/*.c 
 
 check_fix:
-	clang-format -i ./lib/3DViewer/includes/*.hpp ./lib/3DViewer/srcs/*.cpp ./lib/QtGifImage/includes/*.h ./lib/QtGifImage/srcs/*.cpp ./code_c/*.c ./code_c/*.h ./code_c/gcov_obj/*.c 
+	clang-format -i ./srcs/main.cpp  ./lib/3DViewer/includes/*.hpp ./lib/3DViewer/srcs/*.cpp ./lib/QtGifImage/includes/*.h ./lib/QtGifImage/srcs/*.cpp ./code_c/*.c ./code_c/*.h ./code_c/gcov_obj/*.c 
 
 re: clean all
